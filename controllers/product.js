@@ -10,7 +10,7 @@ exports.addProduct = async (req, res, next) => {
       price,
       stock,
       category,
-      createdBy,
+      createdBy: req.user._id,
     });
 
     res.json({
@@ -18,7 +18,7 @@ exports.addProduct = async (req, res, next) => {
     });
   } catch (error) {
     console.log(error.message);
-    throw new Error(error.message);
+    return next(new Error(error.message));
   }
 };
 
@@ -34,7 +34,7 @@ exports.getProducts = async (req, res, next) => {
 exports.getProduct = async (req, res, next) => {
   const product = await Product.findById(req.params.id);
   if (!product) {
-    throw new Error("product no loger exist");
+    return next(new Error("product no loger exist"));
   } else {
     res.json(product);
   }

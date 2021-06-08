@@ -21,10 +21,9 @@ app.use("/api/cart", cart);
 app.all("*", (req, res, next) => {
   throw "not found";
 });
+
 app.use((err, req, res, next) => {
-  err.statusCode = err.statusCode || 400;
-  err.status = err.status || "error";
-  res.status(err.statusCode).json({
+  res.json({
     status: err.status,
     message: err.message,
     stack: err.stack,
